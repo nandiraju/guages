@@ -1,0 +1,205 @@
+/* ═══════════════════════════════════════════════════════════
+   GAUGE COMPONENT — Skeumorphic 3D Glass Styles
+   ═══════════════════════════════════════════════════════════ */
+
+.gauge-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: var(--gauge-size);
+  position: relative;
+  user-select: none;
+}
+
+/* ── Outer bezel (chrome rim) ─────────────────────────────── */
+.gauge-bezel {
+  position: relative;
+  width: var(--gauge-size);
+  height: var(--gauge-size);
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #1c1c1c 0deg,
+    #555 45deg,
+    #888 90deg,
+    #555 135deg,
+    #1c1c1c 180deg,
+    #555 225deg,
+    #888 270deg,
+    #555 315deg,
+    #1c1c1c 360deg
+  );
+  box-shadow:
+    /* Outer ambient shadow */
+    0 20px 60px rgba(0, 0, 0, 0.9),
+    0 8px 24px rgba(0, 0, 0, 0.8),
+    /* Top light reflection */
+    inset 0 2px 4px rgba(255, 255, 255, 0.15),
+    /* Inner depth shadow */
+    inset 0 -4px 16px rgba(0, 0, 0, 0.7),
+    /* Color glow */
+    0 0 40px var(--gauge-glow-soft),
+    0 0 80px color-mix(in srgb, var(--gauge-glow-soft) 40%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: box-shadow 0.4s ease;
+}
+
+.gauge-bezel::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 30% 25%,
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Inner raised ring ────────────────────────────────────── */
+.gauge-bezel::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.9),
+    0 1px 0 rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Glass dome overlay ───────────────────────────────────── */
+.gauge-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* Primary glass sheen — upper-left dome catch */
+.gauge-glass-shine {
+  position: absolute;
+  top: 4%;
+  left: 8%;
+  width: 55%;
+  height: 42%;
+  background: radial-gradient(
+    ellipse at 35% 30%,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.10) 30%,
+    rgba(255, 255, 255, 0.02) 65%,
+    transparent 100%
+  );
+  border-radius: 50% 50% 60% 40% / 55% 55% 45% 45%;
+  transform: rotate(-15deg);
+}
+
+/* Secondary micro-highlight — right edge catch */
+.gauge-glass-highlight {
+  position: absolute;
+  top: 8%;
+  right: 10%;
+  width: 22%;
+  height: 28%;
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+}
+
+/* Bottom-edge glass refraction tint */
+.gauge-glass::after {
+  content: '';
+  position: absolute;
+  bottom: 3%;
+  left: 15%;
+  width: 70%;
+  height: 18%;
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    var(--gauge-glow-soft) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(8px);
+}
+
+/* ── Digital readout ──────────────────────────────────────── */
+.gauge-readout {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.gauge-value {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-size: calc(var(--gauge-size) * 0.13);
+  font-weight: 800;
+  color: #fff;
+  text-shadow:
+    0 0 12px var(--gauge-primary),
+    0 0 24px var(--gauge-glow),
+    0 1px 3px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.gauge-unit {
+  font-family: 'Inter', sans-serif;
+  font-size: calc(var(--gauge-size) * 0.055);
+  font-weight: 500;
+  color: var(--gauge-primary);
+  text-shadow: 0 0 8px var(--gauge-glow);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* ── Label below gauge ────────────────────────────────────── */
+.gauge-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Hover interaction ────────────────────────────────────── */
+.gauge-wrapper:hover .gauge-bezel {
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.95),
+    0 10px 30px rgba(0, 0, 0, 0.85),
+    inset 0 2px 4px rgba(255, 255, 255, 0.18),
+    inset 0 -4px 16px rgba(0, 0, 0, 0.7),
+    0 0 55px var(--gauge-glow-soft),
+    0 0 100px color-mix(in srgb, var(--gauge-glow-soft) 50%, transparent);
+  transform: scale(1.015);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Responsive scaling ───────────────────────────────────── */
+@media (max-width: 480px) {
+  .gauge-wrapper {
+    --gauge-size: min(var(--gauge-size), 200px) !important;
+  }
+}
